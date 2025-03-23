@@ -1,0 +1,60 @@
+@startuml
+abstract class Document {
+    - id: String
+    - title: String
+    - author: String
+    - year: int
+    - copiesAvailable: int
+
+    + getId(): String
+    + getTitle(): String
+    + isAvailable(): boolean
+    + printInfo(): void
+}
+
+class Book extends Document {
+    - genre: String
+    + printInfo(): void
+}
+
+class Thesis extends Document {
+    - university: String
+    - supervisor: String
+    + printInfo(): void
+}
+
+class User {
+    - id: String
+    - name: String
+    - borrowedDocs: List<Document>
+    + borrow(Document doc): boolean
+    + return(Document doc): boolean
+    + displayUserInfo(): void
+}
+
+class Library {
+    - documents: List<Document>
+    - users: List<User>
+    + addDocument(Document doc): void
+    + removeDocument(String id): boolean
+    + updateDocument(Document doc): void
+    + findDocumentByTitle(String title): List<Document>
+    + addUser(User user): void
+    + findUserById(String id): User
+    + displayAllDocuments(): void
+    + displayAllUsers(): void
+}
+
+class LibrarySystem {
+    + showMenu(): void
+    + handleUserInput(): void
+}
+
+class Main {}
+
+Library "1" *-- "*" Document
+Library "1" *-- "*" User
+User "1" *-- "*" Document : borrowedDocs
+Main --> LibrarySystem
+
+@enduml
